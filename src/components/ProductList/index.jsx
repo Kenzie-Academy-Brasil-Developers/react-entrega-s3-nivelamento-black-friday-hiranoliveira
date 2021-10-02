@@ -1,13 +1,8 @@
 import { useState } from "react";
+import Cart from "../Cart";
 import Product from "../Product";
 
 const ProductList = () => {
-  const [click, setClick] = useState(false);
-
-  const [selectedProd, setSelectedProd] = useState();
-
-  const [desc, setDesc] = useState();
-
   const [useProduct, setProduct] = useState([
     { id: 1, name: "Smart TV LED 50", price: 1999.0 },
     { id: 2, name: "PlayStation 5", price: 12000.0 },
@@ -16,39 +11,88 @@ const ProductList = () => {
     { id: 5, name: "Tablet Samsung Galaxy Tab S7", price: 4844.05 },
     { id: 6, name: "Cadeira Gamer Cruiser Preta FORTREK", price: 1215.16 },
   ]);
+  const [click, setClick] = useState(false);
 
-  const random = (min, max) => {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  const [selectedProd, setSelectedProd] = useState([]);
+
+  const [currentSale, setCurrentSale] = useState([]);
+
+  //   const randomId = () => {
+  //     return Math.floor(Math.random() * 6) + 1;
+  //   };
+
+  //   const randomDisc = (min, max) => {
+  //     min = Math.ceil(min);
+  //     max = Math.floor(max);
+  //     return Math.floor(Math.random() * (max - min + 1)) + min;
+  //   };
+
+  //   const discPrice = () => {
+  //     return (selectedProd.price * desc) / 100;
+  //   };
+  //   const discValue = () => {
+  //     return (Number(discPrice() - selectedProd.price) * -1).toFixed(2);
+  //   };
+
+  //   const generate = () => {
+  //     setSelectedProd(useProduct.filter((item) => item.id === randomId()));
+  //     setNomeProd(selectedProd.name);
+  //     setPrecoOriginal(selectedProd.price);
+  //     setDesc(randomDisc(40, 90));
+  //     setValorDesc(discPrice);
+  //     setPrecoComDesc(discValue);
+  //     setIdProd(selectedProd.id);
+
+  //     console.log(selectedProd);
+
+  //     setClick(true);
+  //   };
+
+  const handleClick = () => {
+    setCurrentSale([...currentSale, selectedProd[0]]);
   };
 
-  const generate = () => {
-    setSelectedProd(useProduct.filter((item) => item.id === random(1, 6)));
-    discPerc();
+  const findProd = () => {
+    const id = Math.floor(Math.random() * 6) + 1;
+    const disc = Math.floor(Math.random() * 51) + 40;
+
+    const filtProd = useProduct.filter((item) => {
+      return item.id === id;
+    });
+
+    const discPrice = filtProd[0].price * (disc / 100);
+
+    const finalPrice = filtProd[0].price - discPrice;
+
+    setSelectedProd([
+      {
+        id: filtProd[0].id,
+        name: filtProd[0].name,
+        price: filtProd[0].price,
+        discount: disc,
+        discountPrice: discPrice,
+        finalPrice: finalPrice,
+      },
+    ]);
+
     setClick(true);
   };
 
-  const discPerc = () => {
-    return setDesc(random(40, 90));
-  };
-  const discPrice = () => {
-    return ((selectedProd[0].price * desc) / 100).toFixed(2);
-  };
+  const totalCart = currentSale.reduce((total, price) => {
+    return Number(total) + Number(price.finalPrice);
+  }, 0);
 
   return (
     <>
       <div>
-        <button onClick={() => generate()}>GERAR DESCONTO</button>
+        <button onClick={findProd}>GERAR DESCONTO</button>
 
         {click && selectedProd && (
-          <Product
-            selectedProd={selectedProd}
-            random={random}
-            desc={desc}
-            discPrice={discPrice}
-          />
+          <Product handleClick={handleClick} selectedProd={selectedProd} />
         )}
+        <Cart currentSale={currentSale} />
+        <h2>Total do Carrinho:</h2>
+        <p>{totalCart.toFixed(2)}</p>
       </div>
     </>
   );

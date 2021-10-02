@@ -1,17 +1,16 @@
-const Product = ({ selectedProd, desc, discPrice }) => {
-  //   const discPerc = () => {
-  //     return random(40, 90);
-  //   };
-  //   const discPrice = () => {
-  //     return (selectedProd[0].price * discPerc()) / 100;
-  //   };
+import Card from "../Card";
+
+const Product = ({ handleClick, selectedProd }) => {
   return (
     <>
       <div>
-        <h2>Produto: {selectedProd[0].name}</h2>
-        <p>Preço normal: R${selectedProd[0].price}</p>
-        <p>Desconto: {desc}%</p>
-        <p>Preço com desconto: R${discPrice()}</p>
+        {selectedProd?.map((produto, index) => (
+          <div key={index}>
+            <Card produto={produto} />
+
+            <button onClick={handleClick}>Adicionar ao carrinho</button>
+          </div>
+        ))}
       </div>
     </>
   );
