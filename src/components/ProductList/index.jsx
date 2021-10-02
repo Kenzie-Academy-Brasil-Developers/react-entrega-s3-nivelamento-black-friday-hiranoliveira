@@ -17,37 +17,6 @@ const ProductList = () => {
 
   const [currentSale, setCurrentSale] = useState([]);
 
-  //   const randomId = () => {
-  //     return Math.floor(Math.random() * 6) + 1;
-  //   };
-
-  //   const randomDisc = (min, max) => {
-  //     min = Math.ceil(min);
-  //     max = Math.floor(max);
-  //     return Math.floor(Math.random() * (max - min + 1)) + min;
-  //   };
-
-  //   const discPrice = () => {
-  //     return (selectedProd.price * desc) / 100;
-  //   };
-  //   const discValue = () => {
-  //     return (Number(discPrice() - selectedProd.price) * -1).toFixed(2);
-  //   };
-
-  //   const generate = () => {
-  //     setSelectedProd(useProduct.filter((item) => item.id === randomId()));
-  //     setNomeProd(selectedProd.name);
-  //     setPrecoOriginal(selectedProd.price);
-  //     setDesc(randomDisc(40, 90));
-  //     setValorDesc(discPrice);
-  //     setPrecoComDesc(discValue);
-  //     setIdProd(selectedProd.id);
-
-  //     console.log(selectedProd);
-
-  //     setClick(true);
-  //   };
-
   const handleClick = () => {
     setCurrentSale([...currentSale, selectedProd[0]]);
   };
